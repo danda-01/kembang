@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fireworks Display</title>
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes glow {
+      0% { text-shadow: 0 0 10px white; }
+      50% { text-shadow: 0 0 20px yellow; }
+      100% { text-shadow: 0 0 10px white; }
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+      }
+      40% {
+        transform: translateX(-50%) translateY(-30px);
+      }
+      60% {
+        transform: translateX(-50%) translateY(-15px);
+      }
+    }
+
+    body {
+      margin: 0;
+      background: url('1735651394926.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    #message, #year-end-message, #new-year-message, #countdown, #icons {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: fadeIn 3s ease-in;
+      z-index: 1;
+    }
+
+    #message {
+      top: 40%;
+      font-size: 4rem;
+      animation-delay: 0s, 5s;
+      animation: fadeIn 3s ease-in, glow 2s infinite alternate;
+    }
+
+    #year-end-message {
+      top: 20%;
+      font-size: 1.5rem;
+      animation-delay: 1s, 5s;
+      animation: fadeIn 3s ease-in, bounce 2s infinite;
+    }
+
+    #new-year-message {
+      bottom: 10%;
+      font-size: 1.5rem;
+      animation-delay: 2s, 5s;
+      animation: fadeIn 3s ease-in, bounce 2s infinite;
+    }
+
+    #countdown {
+      top: 10%;
+      font-size: 3rem;
+      animation-delay: 0s;
+    }
+
+    #icons {
+      bottom: 5%;
+      display: flex;
+      gap: 15px;
+    }
+    
+    #icons img {
+      width: 50px;
+      height: 50px;
+      animation: bounce 2s infinite;
+    }
+  </style>
+</head>
+<body>
+  <!--<div id="countdown">00:00:00</div>
+  <div id="year-end-message">Lebih gencar lagi "p cohabnya" biar cepat dapet. btw,,,</div> -->
+  <div id="message">Selamat Tahun Baru 2025!</div>
+  <!-- <div id="new-year-message">dua tiga biji kenari, loveyu semua yang ada dimari. JANGAN LUPA DI TAP TAP!!!</div>
+-->
+  <canvas id="fireworksCanvas"></canvas>
+  <script src="fireworks.js"></script>
+  <script>
+    // Simple countdown timer
+    const countdownElement = document.getElementById('countdown');
+    const targetDate = new Date('Jan 1, 2025 00:00:00').getTime();
+
+    const countdown = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+      
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+      if (distance < 0) {
+        clearInterval(countdown);
+        countdownElement.textContent = 'Happy New Year!';
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
